@@ -3,6 +3,8 @@ import { db } from '@/db/index';
 import { targets, pings } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const allTargets = db.select().from(targets).all();
 

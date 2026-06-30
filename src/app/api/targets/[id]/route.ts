@@ -3,6 +3,8 @@ import { db } from '@/db/index';
 import { targets } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
+export const dynamic = 'force-dynamic';
+
 export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }

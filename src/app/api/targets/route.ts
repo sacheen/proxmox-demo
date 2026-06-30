@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db/index';
 import { targets } from '@/db/schema';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const rows = db.select().from(targets).all();
   return NextResponse.json(rows);

@@ -65,20 +65,30 @@ export default function Dashboard() {
   async function handleAdd() {
     if (!name.trim() || !url.trim()) return;
     setAdding(true);
-    await fetch('/api/targets', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name.trim(), url: url.trim() }),
-    });
-    setName('');
-    setUrl('');
-    setAdding(false);
-    close();
+    try {
+      const res = await fetch('/api/targets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.trim(), url: url.trim() }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setName('');
+      setUrl('');
+      close();
+    } catch (err) {
+      console.error('Failed to add target:', err);
+    } finally {
+      setAdding(false);
+    }
   }
 
   async function handleDelete(id: number) {
-    await fetch(`/api/targets/${id}`, { method: 'DELETE' });
-    setData((d) => ({ targets: d.targets.filter((t) => t.id !== id) }));
+    try {
+      const res = await fetch(`/api/targets/${id}`, { method: 'DELETE' });
+      if (res.ok) setData((d) => ({ targets: d.targets.filter((t) => t.id !== id) }));
+    } catch (err) {
+      console.error('Failed to delete target:', err);
+    }
   }
 
   return (
