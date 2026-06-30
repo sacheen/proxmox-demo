@@ -4,8 +4,11 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./data:/app/data
+      - monitor-data:/app/data
     environment:
       - DATABASE_URL=/app/data/monitor.db
       - NODE_ENV=production
     restart: unless-stopped
+
+volumes:
+  monitor-data:
